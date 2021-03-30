@@ -3,7 +3,7 @@
     <Header class="header" />
     <section class="main">
       <DisplayBtn @click="getInitialPhotos" class="display-btn"/>
-      <ul>
+      <ul class="images">
         <li v-for='photo in photos' :key='photo' class="image-container">
           <img :src="photo.urls.small" class="unsplash-image">
         </li>
@@ -63,9 +63,45 @@ export default {
 </script>
 
 <style scoped>
+	@media screen and (min-width: 768px) {
+    .header {
+      padding: 0 50px;
+      max-width: 1100px;
+      height: 120px;
+    }
+    .main {
+      max-width: 1100px;
+    }
+    .image-container {
+      max-width: 700px;
+    }
+    .images {
+      max-width: 800px;
+      margin: 20px auto 0 auto;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .header {
+      padding: 0 100px;
+      max-width: 700px;
+      height: fit-content;
+      min-height: 120px;
+    }
+    .main {
+      max-width: 700px;
+    }
+    .image-container {
+      max-width: 500px;
+    }
+    .images {
+      max-width: 600px;
+      margin: 5px auto 0 auto;
+    }
+  }
+
   .home {
-    width: 1100px;
-    /* height: 100vh; */
+    width: 100vw;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -74,11 +110,11 @@ export default {
 
   .header {
     width: 100%;
-    height: 120px;
     position: fixed;
     top: 0;
     bottom: 10px;
     margin: 0;
+    padding: 0 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,13 +142,20 @@ export default {
 
   .main {
     width: 100%;
-    max-width: 1100px;
-    margin: 120px auto 15px auto;
+    margin: 120px 0 15px 0;
+  }
+
+  .images {
+    margin: 20px auto 20px auto;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .image-container {
     width:90%;
-    max-width: 700px;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -121,14 +164,9 @@ export default {
   }
 
   .unsplash-image {
-    width: 100%;
+    width: 90%;
     max-width: 600px;
     margin: 0;
   }
 
-  .credit {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.3;
-  }
 </style>

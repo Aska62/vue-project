@@ -1,7 +1,10 @@
 <template>
 	<div class="container">
-    <h1>Welcome to My Vue App!</h1>
-    <button @click="login" class="btn">Signin by Google</button>
+		<div class="login-msg">
+			<h2 class="h2">Welcome to</h2>
+			<h1 class="h1">My Vue App!</h1>
+		</div>
+    <button @click="login" class="btn">Login by Google</button>
   </div>
 </template>
 
@@ -35,56 +38,49 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  width: 90%;
-  max-width: 600px;
-  height: 360px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  background-color:pink;
-  border-radius: 10px;
-}
-
-	.login-form {
-		width: 90%;
-		height: 260px;
-		max-width: 500px;
+	@media screen and (min-width: 768px) {
+		.container {
+			width: 90%;
+			max-width: 600px;
+			height: 300px;
+		}
+	}
+	@media screen and (max-width: 767px) {
+		.container {
+			width: 86%;
+			max-width: 500px;
+		}
+	}
+	.container {
+		height: 300px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-around;
-		font-size: 20px;
+		justify-content: center;
+		background-color:pink;
+		border-radius: 10px;
+		margin: 80px auto 0 auto;
 	}
 
-	.form-element {
-		width: 95%;
-		max-width: 400px;
+	.login-msg {
+		width: 90%;
+		height: 40%;
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 	}
 
-	.input-field {
-		width: 250px;
-		height: 34px;
-		border: none;
-		border-radius: 5px;
-    margin: 0 0 0 5px;
+	.h1, .h2 {
+		margin: 0;
 	}
-
-	.input-field:focus {
-		outline: none;
-	}
-
 	.btn {
 		width: 120px;
 		height: 50px;
+		font-size: 20px;
 		border: none;
 		border-radius: 5px;
 		background-color: rgb(245, 233, 233);
-		font-size: 20px;
 	}
 
 	.btn:hover {
