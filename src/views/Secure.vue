@@ -1,19 +1,23 @@
 <template>
     <div id="secure">
         <h1>Secure Area</h1>
-        <p>
-            This is a secure area
-        </p>
+        <p>This is a secure area</p>
+		<button @click="signOut">Logout</button>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'Secure',
-        data() {
-            return {};
-        }
-    }
+	import firebase from 'firebase'
+
+	export default {
+		name: 'Secure',
+		methods: {
+			signOut: function() {
+				firebase.auth().signOut()
+				this.$router.replace("/testlogin");
+			}
+		},
+	}
 </script>
 
 <style scoped>

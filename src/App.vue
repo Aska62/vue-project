@@ -1,11 +1,13 @@
 <template>
-  <div id="nav">
+  <div id="nav" class="nav">
     <router-link v-if="authenticated" to="/login" v-on:click="logout()" replace>Logout</router-link>
   </div>
   <router-view @authenticated="setAuthenticated"/>
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   name: 'App',
   data() {
@@ -23,8 +25,10 @@ export default {
       this.authenticated = status;
     },
     logout() {
+      firebase.auth().signOut()
       this.authenticated = false;
-    }
+			this.$router.replace("/testlogin");
+		},
   }
 }
 
@@ -45,6 +49,10 @@ export default {
 
 #nav {
   padding: 30px;
+  position: fixed;
+  right: 20px;
+  top: 60px;
+  z-index: 1;
 }
 
 #nav a {
@@ -55,4 +63,5 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 </style>

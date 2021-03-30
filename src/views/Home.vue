@@ -1,25 +1,30 @@
 <template>
   <div class="home">
-    <Header />
-    <button @click="getInitialPhotos" type="button" class="search-btn">
-      Display
-    </button>
-    <ul>
-      <li v-for='photo in photos' :key='photo' class="image-container">
-        <img :src="photo.urls.small" class="unsplash-image">
-      </li>
-    </ul>
+    <Header class="header" />
+    <section class="main">
+      <DisplayBtn @click="getInitialPhotos" class="display-btn"/>
+      <ul>
+        <li v-for='photo in photos' :key='photo' class="image-container">
+          <img :src="photo.urls.small" class="unsplash-image">
+        </li>
+      </ul>
+    </section>
+    <TopBtn />
   </div>
 </template>
 
 <script>
 import axios from "axios"
 import Header from '../components/Header'
+import DisplayBtn from '../components/DisplayBtn'
+import TopBtn from '../components/TopBtn'
 
 export default {
   name: 'Home',
   components: {
-    Header
+    Header,
+    DisplayBtn,
+    TopBtn
   },
   data() {
     return {
@@ -59,12 +64,28 @@ export default {
 
 <style scoped>
   .home {
+    width: 1100px;
+    /* height: 100vh; */
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .search-btn {
+  .header {
+    width: 100%;
+    height: 120px;
+    position: fixed;
+    top: 0;
+    bottom: 10px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+  }
+
+  .display-btn {
     background-color: palevioletred;
     color: white;
     width: 100px;
@@ -74,13 +95,19 @@ export default {
     margin: 5px auto 10px auto;
   }
 
-  .search-btn:hover {
+  .display-btn:hover {
     cursor: pointer;
     color: yellowgreen;
   }
 
-  .search-btn:focus {
+  .display-btn:focus {
     outline: none;
+  }
+
+  .main {
+    width: 100%;
+    max-width: 1100px;
+    margin: 120px auto 15px auto;
   }
 
   .image-container {

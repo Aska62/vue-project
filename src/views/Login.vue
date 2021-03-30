@@ -1,53 +1,36 @@
 <template>
 	<div class="container">
-    <h1>Please Login!</h1>
-    <form @submit="login()" class="login-form">
-      <div class="form-element">
-        <label>Username</label>
-        <input type="text" v-model="input.username" name="username" placeholder="Enter Username" class="input-field" />
-      </div>
-      <div class="form-element">
-        <label>Password</label>
-        <input type="text" v-model="input.password" name="password" placeholder="Enter Password" class="input-field" />
-      </div>
-      <input type="submit" value="Login" class="btn" />
-    </form>
+    <h1>Welcome to My Vue App!</h1>
+    <button @click="login" class="btn">Signin by Google</button>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
-  name: 'Login',
-  data() {
-    return {
-      input: {
-        username: '',
-        password: '',
-      },
-      users: [],
-    }
+  name: 'TestLogin',
+	asyncData () {
+		return {
+			isAuth: false,
+		}
   },
   mounted() {
-    fetch('http://localhost:3000/users')
-      .then(res => res.json())
-      .then(data => this.users = data)
-      .catch(err => console.log(err.message))
-  },
-  methods: {
-    login() {
-			console.log('login btn clicked!')
-			if(this.input.username != "" && this.input.password != "") {
-        for(let i=0; i < this.users.length; i++) {
-          if(this.input.username === this.users[i].username && this.input.password === this.users[i].password) {
-            this.$emit("authenticated", true);
-            this.$router.replace("/home");
-					}
-        }
-			} else {
-				alert("A username and password are required");
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				this.isAuth = true;
+				this.$emit("authenticated", true)
+				console.log('authenticated!')
+				this.$router.replace("/home");
 			}
-		},
-  }
+		})
+	},
+  methods: {
+		login() {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithRedirect(provider)
+    },
+  },
 }
 </script>
 
@@ -97,16 +80,17 @@ export default {
 
 	.btn {
 		width: 120px;
-		height: 40px;
+		height: 50px;
 		border: none;
 		border-radius: 5px;
-		background-color: #0fd19a;
-    color: white;
+		background-color: rgb(245, 233, 233);
 		font-size: 20px;
 	}
 
 	.btn:hover {
 		cursor: pointer;
+    background-color: #44be9c;
+    color: rgb(245, 233, 233);
 	}
 
 	.btn:focus {

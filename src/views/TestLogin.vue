@@ -1,60 +1,36 @@
 <template>
 	<div class="container">
     <h1>Login Test</h1>
-    <form @submit="login()" class="login-form">
-      <div class="form-element">
-        <label>Username</label>
-        <input type="text" v-model="input.username" name="username" placeholder="Input Username" class="input-field" />
-      </div>
-      <div class="form-element">
-        <label>Password</label>
-        <input type="text" v-model="input.password" name="password" placeholder="Input Password" class="input-field" />
-      </div>
-      <input type="submit" value="Log In" class="btn" />
-    </form>
+    <button @click="login" class="btn">Signin by Google</button>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
-  name: 'Test',
-  data() {
-    return {
-      input: {
-				username: '',
-				password: ''
-			},
-      users: {
-					"username": "brad",
-					"password": "brad1brad"
-			}
-    }
+  name: 'TestLogin',
+	asyncData () {
+		return {
+			isAuth: false,
+		}
   },
-  // mounted() {
-  //   fetch('http://localhost:3000/users')
-  //     .then(res => res.json())
-  //     .then(data => this.users = data)
-  //     .catch(err => console.log(err.message))
-  // },
-  methods: {
-    // onClick() {
-    //   console.log(this.users[0])
-    // },
-		login() {
-			console.log('login btn clicked!')
-			if(this.input.username != "" && this.input.password != "") {
-					if(this.input.username == this.users.username && this.input.password == this.users.password) {
-							this.$emit("authenticated", true);
-							this.$router.replace("/secure");
-							console.log('atuthentication success!');
-					} else {
-							alert("The username and / or password is incorrect");
-					}
-			} else {
-					alert("A username and password are required");
+  mounted() {
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				this.isAuth = true;
+				this.$emit("authenticated", true)
+				console.log('authenticated!')
+				this.$router.replace("/home");
 			}
-		},
-  }
+		})
+	},
+  methods: {
+		login() {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithRedirect(provider)
+    },
+  },
 }
 </script>
 
