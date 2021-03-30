@@ -7,7 +7,7 @@ export default {
 	name: 'Header',
 	data() {
 		return {
-			title: 'Watermelon photos from Unsplash',
+			title: 'Cat photos from Unsplash',
 		}
 	}
 }

@@ -23,7 +23,6 @@ export default {
 			if (user) {
 				this.isAuth = true;
 				this.$emit("authenticated", true)
-				console.log('authenticated!')
 				this.$router.replace("/home");
 			}
 		})

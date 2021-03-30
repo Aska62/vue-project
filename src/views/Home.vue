@@ -33,18 +33,17 @@ export default {
   },
   methods: {
     getInitialPhotos() {
-      console.log('get first 10 pics!')
-      axios.get(`https://api.unsplash.com/search/photos?query=watermelon&X-Total=10&client_id=Ybgq8bbwnKPDee6l1nHN83TC49LyJcIWorBSiHk7ofY`).then((response) => {
-        this.photos = response.data.results;
+      axios.get(`https://api.unsplash.com/photos/random?query=cat&count=10&client_id=Ybgq8bbwnKPDee6l1nHN83TC49LyJcIWorBSiHk7ofY`).then((response) => {
+        this.photos = response.data;
+        console.log(this.photos)
       })
     },
     getNextPhotos() {
       window.onscroll = () => {
         let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
         if (bottomOfWindow) {
-          axios.get(`https://api.unsplash.com/search/photos?query=watermelon&X-Total=10&client_id=Ybgq8bbwnKPDee6l1nHN83TC49LyJcIWorBSiHk7ofY`).then(response => {
-            const newResult = response.data.results;
-            console.log(newResult)
+          axios.get(`https://api.unsplash.com/photos/random?query=cat&count=10&client_id=Ybgq8bbwnKPDee6l1nHN83TC49LyJcIWorBSiHk7ofY`).then((response) => {
+            const newResult = response.data;
             newResult.forEach((newResult)=> {
               this.photos.push(newResult);
             });
