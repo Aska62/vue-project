@@ -14,8 +14,8 @@ var firebaseConfig = {
     storageBucket: "my-vue-project-4505f.appspot.com",
     messagingSenderId: "998414460560",
     appId: "1:998414460560:web:b296f40a66473d1ecdda15",
-    measurementId: "G-70L46REV50"
+    // measurementId: "G-70L46REV50"
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+// firebase.analytics();
