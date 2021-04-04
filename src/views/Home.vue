@@ -2,12 +2,9 @@
   <div class="home">
     <Header class="header" />
     <section class="main">
-      <DisplayBtn @click="getInitialPhotos" class="display-btn"/>
-      <ul class="images">
-        <li v-for='photo in photos' :key='photo' class="image-container">
-          <img :src="photo.urls.small" class="unsplash-image">
-        </li>
-      </ul>
+      <div class='article-container' v-for='article in articles' :key='article'>
+        <p class='article'>{{ article.abstract }}</p>
+      </div>
     </section>
     <TopBtn />
   </div>
@@ -16,47 +13,50 @@
 <script>
 import axios from "axios"
 import Header from '../components/Header'
-import DisplayBtn from '../components/DisplayBtn'
 import TopBtn from '../components/TopBtn'
 
 export default {
   name: 'Home',
   components: {
     Header,
-    DisplayBtn,
-    TopBtn
+    TopBtn,
   },
   data() {
     return {
-      photos: [],
+      articles: [],
+      page: 1,
     }
   },
   methods: {
-    getInitialPhotos() {
-      axios.get(`https://api.unsplash.com/photos/random?query=cat&count=10&client_id=Ybgq8bbwnKPDee6l1nHN83TC49LyJcIWorBSiHk7ofY`).then((response) => {
-        this.photos = response.data;
-        console.log(this.photos)
+    async getInitArticles() {
+      await axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sports&api-key=ShKb1Y669XpvDsSYZzvSAX4P55nOxnZQ&page=0`).then((response) => {
+        this.articles = response.data.response.docs;
       })
     },
-    getNextPhotos() {
+		async getArticles() {
+      await axios.get(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=sports&api-key=ShKb1Y669XpvDsSYZzvSAX4P55nOxnZQ&page=${this.page}`).then((response) => {
+        const continuousRes = response.data.response.docs;
+        continuousRes.forEach((contRes) => {
+          this.articles.push(contRes);
+        });
+      })
+      this.page++;
+      console.log(`count up to ${this.page}`)
+		},
+    loadNext() {
       window.onscroll = () => {
-        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+        const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
         if (bottomOfWindow) {
-          axios.get(`https://api.unsplash.com/photos/random?query=cat&count=10&client_id=Ybgq8bbwnKPDee6l1nHN83TC49LyJcIWorBSiHk7ofY`).then((response) => {
-            const newResult = response.data;
-            newResult.forEach((newResult)=> {
-              this.photos.push(newResult);
-            });
-          });
+          this.getArticles()
         }
       }
-    }
-  },
-  beforMount() {
-    this.getInitialPhotos();
+    },
+	},
+  beforeMount() {
+    this.getInitArticles();
   },
   mounted() {
-    this.getNextPhotos();
+    this.loadNext();
   }
 }
 </script>
@@ -142,6 +142,17 @@ export default {
   .main {
     width: 100%;
     margin: 120px 0 15px 0;
+  }
+
+  .article-storage {
+    width: 90%;
+  }
+
+  .article {
+    width: 90%;
+    height: 80px;
+    margin: 20px auto 50px auto;
+    background-color: pink;
   }
 
   .images {

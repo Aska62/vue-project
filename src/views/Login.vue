@@ -5,14 +5,14 @@
 			<h1 class="h1">My Vue App!</h1>
 		</div>
     <button @click="login" class="btn">Login by Google</button>
-  </div>
+	</div>
 </template>
 
 <script>
 import firebase from 'firebase'
 
 export default {
-  name: 'TestLogin',
+	name: 'Login',
 	asyncData () {
 		return {
 			isAuth: false,
@@ -23,6 +23,7 @@ export default {
 			if (user) {
 				this.isAuth = true;
 				this.$emit("authenticated", true)
+				this.$emit("passUid", user.uid)
 				this.$router.replace("/home");
 			}
 		})

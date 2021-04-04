@@ -1,8 +1,9 @@
 <template>
+  <p v-if="authenticated" class="uid">UID: {{uid}}</p>
   <div id="nav" class="nav">
     <router-link v-if="authenticated" to="/login" v-on:click="logout()" replace>Logout</router-link>
-  </div>
-  <router-view @authenticated="setAuthenticated"/>
+    </div>
+  <router-view @authenticated="setAuthenticated" @passUid="setUid"/>
 </template>
 
 <script>
@@ -13,6 +14,7 @@ export default {
   data() {
     return {
       authenticated: false,
+      uid: '',
     }
   },
   mounted() {
@@ -22,12 +24,19 @@ export default {
   },
   methods: {
     setAuthenticated(status) {
+      console.log('setting authenticate status')
       this.authenticated = status;
+    },
+    setUid(uid) {
+      console.log('setting uid')
+      this.uid = uid
+      console.log(`uid set as ${uid}`)
     },
     logout() {
       firebase.auth().signOut()
       this.authenticated = false;
-			this.$router.replace("/testlogin");
+			this.$router.replace('/login');
+      this.uid='';
 		},
   }
 }
@@ -62,6 +71,19 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+.uid {
+  width: 100%;
+  height: 30px;
+  background-color: gold;
+  margin: 0;
+  z-index: 5;
+  position: fixed;
+  bottom: 0;
+  left: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>
